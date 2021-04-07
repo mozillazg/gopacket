@@ -521,7 +521,7 @@ OPTIONS:
 					return fmt.Errorf("MP_TCPRST bad option length %d", opt.OptionLength)
 				}
 				opt.OptionMPTCPMPTcpRst = &MPTcpRst{
-					U:      data[2]&0x10 != 0,
+					U:      data[2]&0x08 != 0,
 					V:      data[2]&0x04 != 0,
 					W:      data[2]&0x02 != 0,
 					T:      data[2]&0x01 != 0,
