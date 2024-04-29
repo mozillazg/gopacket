@@ -236,7 +236,10 @@ func (w *NgWriter) writeSectionHeader() error {
 // AddInterface adds the specified interface to the file, excluding statistics. Interface timestamp resolution is fixed to 9 (to match time.Time). Empty values are not written.
 func (w *NgWriter) AddInterface(intf NgInterface) (id int, err error) {
 	id = int(w.intf)
-	w.intf++
+	if intf.Index > 0 {
+		id = intf.Index
+	}
+	w.intf = uint32(id + 1)
 
 	var scratch [7]ngOption
 	i := 0

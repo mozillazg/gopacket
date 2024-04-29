@@ -160,6 +160,8 @@ var ngEmptyStatistics = NgInterfaceStatistics{
 
 // NgInterface holds all the information of a pcapng interface.
 type NgInterface struct {
+	// Index is the index of the interface.
+	Index int
 	// Name is the name of the interface. This value might be empty if this option is missing.
 	Name string
 	// Comment can be an arbitrary comment. This value might be empty if this option is missing.
