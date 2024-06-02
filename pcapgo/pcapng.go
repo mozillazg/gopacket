@@ -207,6 +207,6 @@ type NgSectionInfo struct {
 
 // NgPacketOptions contains additional information of a pcapng packet
 type NgPacketOptions struct {
-	// Comment can be an arbitrary comment. This value might be empty if this option is missing.
-	Comment string
+	// Comments can be multiple arbitrary comments. This value might be empty if this option is missing.
+	Comments []string
 }

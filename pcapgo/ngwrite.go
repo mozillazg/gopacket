@@ -374,9 +374,9 @@ func (w *NgWriter) WritePacketWithOptions(ci gopacket.CaptureInfo, data []byte, 
 
 	var scratch [4]ngOption
 	i := 0
-	if opts.Comment != "" {
+	for _, comment := range opts.Comments {
 		scratch[i].code = ngOptionCodeComment
-		scratch[i].raw = opts.Comment
+		scratch[i].raw = comment
 		i++
 	}
 	options := scratch[:i]

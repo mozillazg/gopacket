@@ -558,7 +558,7 @@ OPTIONS:
 		case ngOptionCodeEndOfOptions:
 			break OPTIONS
 		case ngOptionCodeComment:
-			opts.Comment = string(r.currentOption.value)
+			opts.Comments = append(opts.Comments, string(r.currentOption.value))
 		}
 	}
 	return opts, nil
