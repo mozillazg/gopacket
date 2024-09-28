@@ -89,9 +89,10 @@ const (
 type MPCapable struct {
 	BaseLayer
 	Version                uint8
+	Flags uint8
 	A, B, C, D, E, F, G, H bool
-	SendKey                []byte
-	ReceivKey              []byte
+	SendKey                uint64
+	ReceivKey              uint64
 	DataLength             uint16
 	Checksum               uint16
 }
@@ -99,6 +100,7 @@ type MPCapable struct {
 // MPJoin contains the fields from the MP_JOIN MPTCP Option
 type MPJoin struct {
 	BaseLayer
+	SubB uint8
 	Backup      bool
 	AddrID      uint8
 	ReceivToken uint32
@@ -109,6 +111,8 @@ type MPJoin struct {
 // Dss contains the fields from the DSS MPTCP Option
 type Dss struct {
 	BaseLayer
+	SubB uint8
+	Flags uint8
 	F, m, M, a, A bool
 	DataAck       []byte
 	DSN           []byte
@@ -120,6 +124,7 @@ type Dss struct {
 // AddAddr contains the fields from the ADD_ADDR MPTCP Option
 type AddAddr struct {
 	BaseLayer
+	SubEcho uint8
 	IPVer    uint8
 	E        bool
 	AddrID   uint8
@@ -131,12 +136,14 @@ type AddAddr struct {
 // RemAddr contains the fields from the REMOVE_ADDR MPTCP Option
 type RemAddr struct {
 	BaseLayer
+	Sub uint8
 	AddrIDs []uint8
 }
 
 // MPPrio contains the fields from the MP_PRIO MPTCP Option
 type MPPrio struct {
 	BaseLayer
+	SubB uint8
 	Backup bool
 	AddrID uint8
 }
@@ -156,6 +163,7 @@ type MPFClose struct {
 // MPTcpRst contains the fields from the MP_TCPRST MPTCP Option
 type MPTcpRst struct {
 	BaseLayer
+	SubB uint8
 	U, V, W, T bool
 	Reason     uint8
 }
