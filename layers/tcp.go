@@ -350,7 +350,7 @@ OPTIONS:
 			opt.OptionMultipath = MPTCPSubtype(data[2] >> 4)
 			switch opt.OptionMultipath {
 			case MPTCPSubtypeMPCAPABLE:
-				if opt.OptionLength != OptionLenMpCapableSyn && opt.OptionLength != OptionLenMpCapableSynAck && opt.OptionLength != OptionLenMpCapableAck && opt.OptionLength != OptionLenMpCapableAckData {
+				if opt.OptionLength != OptionLenMpCapableSyn && opt.OptionLength != OptionLenMpCapableSynAck && opt.OptionLength != OptionLenMpCapableAck && opt.OptionLength != OptionLenMpCapableAckData && opt.OptionLength != OptionLenMpCapableAckDataCSum {
 					return fmt.Errorf("MP_CAPABLE bad option length %d", opt.OptionLength)
 				}
 				opt.OptionMPTCPMpCapable = &MPCapable{
@@ -402,8 +402,8 @@ OPTIONS:
 				}
 			case MPTCPSubtypeDSS:
 				opt.OptionMPTCPDss = &Dss{
-					F: data[3]&0x20 != 0,
-					m: data[3]&0x10 != 0,
+					F: data[3]&0x10 != 0,
+					m: data[3]&0x08 != 0,
 					M: data[3]&0x04 != 0,
 					a: data[3]&0x02 != 0,
 					A: data[3]&0x01 != 0,
@@ -422,7 +422,7 @@ OPTIONS:
 					}
 				}
 				if opt.OptionMPTCPDss.M { // Data Sequence Number (DSN), Subflow Sequence Number (SSN), Data-Level Length, and Checksum (if negotiated) present
-					if opt.OptionMPTCPDss.a { // Data Sequence Number is 8 octets
+					if opt.OptionMPTCPDss.m { // Data Sequence Number is 8 octets
 						opt.OptionMPTCPDss.DSN = data[lenOpt : lenOpt+OptionLenDssDSN64]
 						lenOpt += OptionLenDssDSN64
 					} else {
@@ -521,7 +521,7 @@ OPTIONS:
 					return fmt.Errorf("MP_TCPRST bad option length %d", opt.OptionLength)
 				}
 				opt.OptionMPTCPMPTcpRst = &MPTcpRst{
-					U:      data[2]&0x10 != 0,
+					U:      data[2]&0x08 != 0,
 					V:      data[2]&0x04 != 0,
 					W:      data[2]&0x02 != 0,
 					T:      data[2]&0x01 != 0,
