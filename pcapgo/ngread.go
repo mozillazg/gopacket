@@ -571,6 +571,29 @@ OPTIONS:
 			break OPTIONS
 		case ngOptionCodeComment:
 			opts.Comments = append(opts.Comments, string(r.currentOption.value))
+		case ngOptionCodeEpbFlags:
+			flags := NgEpbFlags{}
+			flags.FromUint32(binary.LittleEndian.Uint32(r.currentOption.value))
+			opts.Flags = &flags
+		case ngOptionCodeEpbHash:
+			opts.Hashes = append(opts.Hashes, NgEpbHash{
+				Algorithm: NgEpbHashAlgorithm(r.currentOption.value[0]),
+				Hash:      r.currentOption.value[1:],
+			})
+		case ngOptionCodeEpbDropCount:
+			v := binary.LittleEndian.Uint64(r.currentOption.value)
+			opts.DropCount = &v
+		case ngOptionCodeEpbPacketID:
+			v := binary.LittleEndian.Uint64(r.currentOption.value)
+			opts.PacketID = &v
+		case ngOptionCodeEpbQueue:
+			v := binary.LittleEndian.Uint32(r.currentOption.value)
+			opts.Queue = &v
+		case ngOptionCodeEpbVerdict:
+			opts.Verdicts = append(opts.Verdicts, NgEpbVerdict{
+				Type: NgEpbVerdictType(r.currentOption.value[0]),
+				Data: r.currentOption.value[1:],
+			})
 		}
 	}
 	return opts, nil
