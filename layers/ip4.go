@@ -208,6 +208,7 @@ func (ip *IPv4) DecodeFromBytes(data []byte, df gopacket.DecodeFeedback) error {
 	// From here on, data contains the header options.
 	headerOptionsData := data[20 : ip.IHL*4]
 	// Pull out IP options
+pullOutOptions:
 	for len(headerOptionsData) > 0 {
 		if ip.Options == nil {
 			// Pre-allocate to avoid growing the slice too much.
@@ -220,8 +221,9 @@ func (ip *IPv4) DecodeFromBytes(data []byte, df gopacket.DecodeFeedback) error {
 			opt.OptionLength = 1
 			ip.Options = append(ip.Options, opt)
 			ip.Padding = headerOptionsData[1:]
-
-			return nil
+			headerOptionsData = headerOptionsData[1:]
+			ip.Options = append(ip.Options, opt)
+			break pullOutOptions
 		case 1: // 1 byte padding
 			opt.OptionLength = 1
 			headerOptionsData = headerOptionsData[1:]
