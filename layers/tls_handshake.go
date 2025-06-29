@@ -205,6 +205,14 @@ func (t *TLSHandshakeRecord) decodeFromBytes(h TLSRecordHeader, data []byte, df 
 		t.ClientHello.decodeFromBytes(data, df)
 	case TLSHandshakeClientKeyExchange:
 		t.ClientKeyChange.decodeFromBytes(data, df)
+	case TLSHandshakeServerHello:
+	case TLSHandsharkHelloVerirfyRequest:
+	case TLSHandshakeCertificate:
+	case TLSHandshakeServerKeyExchange:
+	case TLSHandshakeCertificateRequest:
+	case TLSHandshakeServerHelloDone:
+	case TLSHandshakeCertificateVerify:
+	case TLSHandshakeFinished:
 	default:
 		return errors.New("Unknown TLS handshake type")
 		// TODO
